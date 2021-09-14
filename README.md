@@ -1,8 +1,13 @@
-# Sample GitLab Project
+# CS 400 MLP Project Repository
 
-This sample project shows how a project in GitLab looks for demonstration purposes. It contains issues, merge requests and Markdown files in many branches,
-named and filled with lorem ipsum.
+## Project Name: 
 
-You can look around to get an idea how to structure your project and, when done, you can safely delete this project.
+`replace this text with the name of your project`
 
-[Learn more about creating GitLab projects.](https://docs.gitlab.com/ee/gitlab-basics/create-project.html)
+## Members: 
+
+`replace this text with the names and emails address of your members`
+
+## Brief Descritpion:
+
+`replace this text with a brief description of what your project is or what you are interested in`
