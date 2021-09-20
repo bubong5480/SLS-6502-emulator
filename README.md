@@ -2,12 +2,15 @@
 
 ## Project Name: 
 
-`replace this text with the name of your project`
+`SLS6502 Computer Emulator`
 
 ## Members: 
 
-`replace this text with the names and emails address of your members`
+James Ngo - jameshn@bu.edu 
+William Wei - willwei@bu.edu
+Ben Badnani - bbadnani@bu.edu
+Ryan Velez - ryanv249@bu.edu
 
-## Brief Descritpion:
+## Brief Description:
 
-`replace this text with a brief description of what your project is or what you are interested in`
+In this project, we will be creating a fully interactable SLS 6502 computer emulator. It will have a variety of features, including a visualization of the way the computer functions, and the abillity to program instructions straight into the computer itself. 
