@@ -42,3 +42,4 @@ So far we have gotten nothing done
   2. IR
   3. Address Buffer
 
+- Kazojc 8080 datasheet, look it up
