@@ -22,3 +22,14 @@ So far we have gotten nothing done
 3. Settle on the project
 4. Starting writting up the proposal
 
+
+## DATE: Mon Sept 30, 2021
+
+### Notes
+Met today to discuss what the project would entail. 
+
+For now, we are awaiting the manuals on the SLS6502 machines.
+
+In the meantime, some of us will be familiraizing ourselves with web assembly, and we will create a framework c file that would give a good outline of how we should implement the simulator. 
+
+
