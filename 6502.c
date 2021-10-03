@@ -6,10 +6,15 @@ struct cpu{
 };
 
 struct cpu* cpu_inst;
+char *memory;
 
 int main()
 {
-    if((cpu_inst = malloc(sizeof(struct cpu))) == NULL){
+    if ((memory = (char*) malloc((1 << 16) * sizeof(char))) == NULL ){
+        return NULL; 
+    }
+
+    if((cpu_inst = (struct cpu*) malloc(sizeof(struct cpu))) == NULL){
         return NULL; 
     }    
 
