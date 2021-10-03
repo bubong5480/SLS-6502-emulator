@@ -8,9 +8,14 @@ struct cpu{
 struct cpu* cpu_inst;
 char *memory;
 
+void read_in_memory_contents(char* mem_arr_pointer){
+
+    // for now, just memset every 
+}
+
 int main()
 {
-    if ((memory = (char*) malloc((1 << 16) * sizeof(char))) == NULL ){
+    if ((memory = (char*) malloc((1 << 16) * sizeof(char))) == NULL){
         return NULL; 
     }
 
@@ -20,7 +25,7 @@ int main()
 
     while (1){
         switch(*(cpu_inst->pc)){
-            case 'EA':
+            case 0xEA:
                 *(cpu_inst->pc) += 1; 
             default: 
                 printf('\n');
