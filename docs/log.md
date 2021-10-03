@@ -41,12 +41,9 @@ Preliminary Makefile and 6502.c file created and pushed to master.
 ### Progress
 
 For prototype of the SLS6502
-    CPU is a struct with fields as registers. 
-    Memory is a char pointer; an array.
-    main currently does the following:
-        initializes space for memory and cpu
-        continually switch/case
-        case 0xEA -> the 'no op" case
+    1. CPU is a struct with fields as registers. 
+    2. Memory is a char pointer; an array.
+    3. main currently does the following: initializes space for memory and cpu, continually switch/case, case 0xEA -> the 'no op" case
 
 ### Goals
 
