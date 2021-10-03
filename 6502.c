@@ -8,7 +8,7 @@ struct cpu* cpu_inst;
 
 int main()
 {
-    while (1);
+    while (1){
         switch(*(cpu_inst->pc)){
             case 'EA':
                 *(cpu_inst->pc) += 1; 
@@ -16,5 +16,6 @@ int main()
                 printf('\n');
                 break;
         }
+    }
     return 0; 
 }
