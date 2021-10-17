@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stddef.h>
 
+int* fetch();
+int* decode();
+struct cpu* execute();
+
 struct cpu{
     int* pc; 
 };
@@ -34,3 +38,11 @@ int main()
     }
     return 0; 
 }
+
+int* fetch(struct cpu* cpu_inst) {
+    return(cpu_inst->pc); 
+} 
+
+int* decode(struct cpu* cpu_inst) {
+    return(cpu_inst->pc);
+} 
