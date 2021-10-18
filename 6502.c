@@ -7,7 +7,7 @@ int* decode();
 struct cpu* execute();
 
 struct cpu{
-    int16_t* pc; 
+    int8_t* pc; 
     int8_t accumulator; 
 };
 
@@ -59,12 +59,14 @@ void* decode(){
 
 int* fetch(struct cpu* cpu_inst) {
     switch(*(cpu_inst->pc)){
+        
         // LDA opcodes
         case 0xA9: // immediate
             *(cpu_inst->pc) += 1; // pass in incremented value or actually increment pc? 
             (*cpu_inst).accumulator = *(cpu_inst->pc); // 
             break;
         case 0xA5:
+
             break;
         case 0xB5:
             break;
