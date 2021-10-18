@@ -59,12 +59,5 @@ LDA with the immediate and absolute addressing mode implemented in an addressing
 2. Question op codes and addressing modes with Appavoo
 3. Make some testing using binary images
 
-### Goals
-
-1. Speak with Appavoo about merging and git in general
-2. Get the manuals
-3. Someone needs to print hello world in web assembly
-
-
 
 
