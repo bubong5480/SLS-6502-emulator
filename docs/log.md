@@ -32,7 +32,7 @@ For now, we are awaiting the manuals on the SLS6502 machines.
 
 In the meantime, some of us will be familiraizing ourselves with web assembly, and we will create a framework c file that would give a good outline of how we should implement the simulator. 
 
-## DATE: Sun Oct 3/, 2021
+## DATE: Sun Oct 3, 2021
 
 ### Notes
 
@@ -42,6 +42,22 @@ Preliminary Makefile and 6502.c file created and pushed to master.
 
 For prototype of the SLS6502
 CPU is a struct with fields as registers. Memory is a char pointer; an array. Main currently does the following: initializes space for memory and cpu, continually switch/case, case 0xEA -> the 'no op" case
+
+## DATE: Sun Oct 17, 2021
+
+### Notes
+
+Progress into 6502 program, discussion into the structure and organization of the CPU. Op codes and addressing mode implementation being started. Upon investigation of the manual and "cheat sheet," the introduction of addressing modes came up. Addressing modes are how and where the operation works. Further knowledge needs to be confirmed but this introduces more op codes because each addressing mode has its own op code. Flags were also introduced, plan is to make the status register a 8 bit integer, with masking as the mechanism to turn them on and off.
+
+### Progress
+
+LDA with the immediate and absolute addressing mode implemented in an addressing mode branch. Preliminary organization of op codes will stay switch cases at the moment.
+
+### Goals
+
+1. Someone still needs to print hello world in web assembly
+2. Question op codes and addressing modes with Appavoo
+3. Make some testing using binary images
 
 ### Goals
 
