@@ -25,7 +25,7 @@ struct cpu{
 struct Computer{
     byte* RAM;
     struct cpu* cpu_inst;
-}
+};
 
 struct Computer* OurComputer;
 
