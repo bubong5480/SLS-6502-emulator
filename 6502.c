@@ -9,6 +9,8 @@
 // For read
 #include <unistd.h>
 
+//#include "uthash.h"
+
 #define byte uint8_t
 #define RAMSIZE (1<<16)
 
@@ -33,13 +35,13 @@ void read_in_binary_image(char* image_name){
 
     int fd=open(image_name, O_RDONLY);
     if (fd < 0) {
-      fprintf(stderr, "ERROR: Open failed!\n");
+      //fprintf(stderr, "ERROR: Open failed!\n");
       exit(-1);
     }
 
     int n = read(fd, OurComputer->RAM, RAMSIZE);
     if (n != RAMSIZE) {
-      fprintf(stderr, "ERROR: Bad ramfile: %s n=%d\n", ramfile, n);
+      //fprintf(stderr, "ERROR: Bad ramfile: %s n=%d\n", image_name, n);
       exit(-1);
     }
     close(fd);
@@ -60,18 +62,18 @@ int main(int argc, char* argv[]) {
 
     char* file_name = argv[1];
 
-    if (argc == 2){
     // allocate memory for Computer Structure
-    if ((OurComputer = (struct Computer*) malloc(sizeof((struct Computer)))) == NULL){
-        return NULL; 
+    if((OurComputer = (struct Computer*) malloc(sizeof(struct Computer))) == NULL){
+        exit(-1);
     }
+
     // initializing size of the RAM to 2^16
     if ((OurComputer->RAM = (byte*) malloc((1 << 16) * sizeof(byte))) == NULL){
-        return NULL; 
+        exit(-1);
     }
     // initializing cpu structure inside of computer
     if((OurComputer->cpu_inst = (struct cpu*) malloc(sizeof(struct cpu))) == NULL){
-        return NULL; 
+        exit(-1);
     }    
 
     // fill struct->RAM with file_name 
@@ -79,10 +81,10 @@ int main(int argc, char* argv[]) {
 
     initalize_program_counter();
 
-    if (*(OurComputer->cpu_inst->pc) == 0x00 ){
-        print('Sucess');
+    if (*(OurComputer->cpu_inst->pc) == 0xEA){
+        printf("Success");
     }
-
+    
     return 0; 
 }
 
@@ -105,9 +107,9 @@ void* decode(){
 }
 
 
-*/
 
-/*
+
+
 int* fetch(struct cpu* cpu_inst) {
     switch(*(cpu_inst->pc)){
 
@@ -152,6 +154,6 @@ int* fetch(struct cpu* cpu_inst) {
     
     *(cpu_inst->pc) += 1
     return 0; 
-} 
 
+}
 */
