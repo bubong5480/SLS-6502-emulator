@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #define byte uint8_t
+#define address uint16_t
 #define RAMSIZE (1<<16)
 
 
@@ -18,8 +19,8 @@ int* decode();
 struct cpu* execute();
 
 struct cpu{
-    uint8_t* pc; 
-    uint16_t accumulator; 
+    byte* pc; 
+    address accumulator; 
 };
 
 struct Computer{
@@ -50,6 +51,20 @@ void initalize_program_counter(){
     OurComputer->cpu_inst->pc = OurComputer->RAM;
 }
 
+int dump_binary_image(struct Computer *OurComp,
+    address start,
+    address end) {
+        address i;
+
+        for (i = start; i < end; i ++) {
+            if ( (i % 16 == 0 && (i != start)) )
+                printf("\n");
+                printf("%02x ", OurComp->RAM[i]);
+        }
+        printf("\n");
+
+        return (i - start);
+}
 
 
 int main(int argc, char* argv[]) {
@@ -82,14 +97,14 @@ int main(int argc, char* argv[]) {
     initalize_program_counter();
 
     if (*(OurComputer->cpu_inst->pc) == 0x00 ){
-        printf("Success");
+        printf("Success for:\n");
+        dump_binary_image(OurComputer, 0, 63);
     }
 
     return 0; 
     }
 }
 
-int dump_binary_image()
 
 /*
 
