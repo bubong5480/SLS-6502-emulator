@@ -50,6 +50,8 @@ void initalize_program_counter(){
     OurComputer->cpu_inst->pc = OurComputer->RAM;
 }
 
+
+
 int main(int argc, char* argv[]) {
 
     // user must pass in binary image to simulate RAM 
@@ -63,15 +65,15 @@ int main(int argc, char* argv[]) {
     if (argc == 2){
     // allocate memory for Computer Structure
     if ((OurComputer = (struct Computer*) malloc(sizeof(struct Computer))) == NULL){
-        return 1; 
+        exit(-1); 
     }
     // initializing size of the RAM to 2^16
     if ((OurComputer->RAM = (byte*) malloc((1 << 16) * sizeof(byte))) == NULL){
-        return 1; 
+        exit(-1);
     }
     // initializing cpu structure inside of computer
     if((OurComputer->cpu_inst = (struct cpu*) malloc(sizeof(struct cpu))) == NULL){
-        return 1; 
+        exit(-1);
     }    
 
     // fill struct->RAM with file_name 
@@ -87,6 +89,7 @@ int main(int argc, char* argv[]) {
     }
 }
 
+int dump_binary_image()
 
 /*
 
