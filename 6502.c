@@ -8,20 +8,26 @@
 #include <fcntl.h>
 // For read
 #include <unistd.h>
-
-//#include "uthash.h"
+#include "./src/uthash.h"
 
 #define byte uint8_t
 #define RAMSIZE (1<<16)
-
+#define opcode_size (152)
 
 int* fetch();
 int* decode();
 struct cpu* execute();
+void build_opcode_table();
 
 struct cpu{
     uint8_t* pc; 
     uint16_t accumulator; 
+};
+
+struct opcode_table{
+    uint8_t opcodes_key;
+    int value; 
+    UT_hash_handle hh;
 };
 
 struct Computer{
@@ -31,6 +37,8 @@ struct Computer{
 
 struct Computer* OurComputer;
 
+struct opcode_table *opcodes = NULL;
+
 void read_in_binary_image(char* image_name){
 
     int fd=open(image_name, O_RDONLY);
@@ -38,7 +46,6 @@ void read_in_binary_image(char* image_name){
       //fprintf(stderr, "ERROR: Open failed!\n");
       exit(-1);
     }
-
     int n = read(fd, OurComputer->RAM, RAMSIZE);
     if (n != RAMSIZE) {
       //fprintf(stderr, "ERROR: Bad ramfile: %s n=%d\n", image_name, n);
@@ -47,9 +54,55 @@ void read_in_binary_image(char* image_name){
     close(fd);
 }
 
+
 // Make program counter point to first byte of RAM 
 void initalize_program_counter(){
     OurComputer->cpu_inst->pc = OurComputer->RAM;
+}
+
+
+void build_opcode_table(){
+
+    // need to read in the opcodes 
+    byte* opcodes_keys;
+
+    if ((opcodes_keys = (byte*) malloc((152) * sizeof(byte))) == NULL){
+        exit(-1);
+    }
+
+    printf("entered the function\n");
+
+    int fd=open("opcode_names.imh", O_RDONLY);
+    printf("fd = %d/n", fd);
+
+
+    
+    if (fd < 0) {
+        exit(-1);
+    }
+
+    int n = read(fd, opcodes_keys, 152);
+
+    if (n != opcode_size) {
+        exit(-1);
+    }
+    close(fd);
+
+
+    for (int i = 0; i  < 151; i++ ){
+        printf("%x", opcodes_keys[i]);
+    }
+
+    struct opcode_table* s = NULL;
+    for (int i = 0; i  < 151; i++ ){
+        s = (struct opcode_table*) malloc(sizeof(sizeof *s)); // check if NULL? 
+        s->opcodes_key = opcodes_keys[i]; // initializing key for s 
+        s->value = 1; // initializing the value for s 
+        HASH_ADD(hh,opcodes, opcodes_key, sizeof(uint8_t),s); 
+        // Adds s = {opcodes_keys[i] : 1} to the hash table 
+        // s ~ (key, value), added to opcodes, the hash table. 
+    }
+    
 }
 
 int main(int argc, char* argv[]) {
@@ -66,7 +119,6 @@ int main(int argc, char* argv[]) {
     if((OurComputer = (struct Computer*) malloc(sizeof(struct Computer))) == NULL){
         exit(-1);
     }
-
     // initializing size of the RAM to 2^16
     if ((OurComputer->RAM = (byte*) malloc((1 << 16) * sizeof(byte))) == NULL){
         exit(-1);
@@ -79,9 +131,11 @@ int main(int argc, char* argv[]) {
     // fill struct->RAM with file_name 
     read_in_binary_image(file_name);
 
+    build_opcode_table();
+
     initalize_program_counter();
 
-    if (*(OurComputer->cpu_inst->pc) == 0xEA){
+    if (*(OurComputer->cpu_inst->pc) != 0xEA){
         printf("Success");
     }
     
