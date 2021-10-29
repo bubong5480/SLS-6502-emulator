@@ -12,7 +12,7 @@
 
 #define byte uint8_t
 #define RAMSIZE (1<<16)
-#define opcode_size (152)
+#define opcode_size 152
 
 int* fetch();
 int* decode();
@@ -25,7 +25,7 @@ struct cpu{
 };
 
 struct opcode_table{
-    uint8_t opcodes_key;
+    int opcodes_key;
     int value; 
     UT_hash_handle hh;
 };
@@ -66,36 +66,30 @@ void build_opcode_table(){
     // need to read in the opcodes 
     byte* opcodes_keys;
 
-    if ((opcodes_keys = (byte*) malloc((152) * sizeof(byte))) == NULL){
+    if ((opcodes_keys = (byte*) malloc((opcode_size) * sizeof(byte))) == NULL){
         exit(-1);
     }
 
-    printf("entered the function\n");
-
     int fd=open("opcode_names.imh", O_RDONLY);
-    printf("fd = %d/n", fd);
-
-
-    
     if (fd < 0) {
         exit(-1);
     }
 
-    int n = read(fd, opcodes_keys, 152);
+    int n = read(fd, opcodes_keys, opcode_size);
 
     if (n != opcode_size) {
         exit(-1);
     }
     close(fd);
 
-
-    for (int i = 0; i  < 151; i++ ){
+    for (int i = 0; i  < opcode_size; i++ ){
         printf("%x", opcodes_keys[i]);
     }
-
+    
     struct opcode_table* s = NULL;
-    for (int i = 0; i  < 151; i++ ){
-        s = (struct opcode_table*) malloc(sizeof(sizeof *s)); // check if NULL? 
+    
+    for (int i = 0; i  < opcode_size; i++ ){
+        s = (struct opcode_table*) malloc(sizeof(*s)); // check if NULL? 
         s->opcodes_key = opcodes_keys[i]; // initializing key for s 
         s->value = 1; // initializing the value for s 
         HASH_ADD(hh,opcodes, opcodes_key, sizeof(uint8_t),s); 
