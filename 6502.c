@@ -12,7 +12,7 @@
 
 #define byte uint8_t
 #define RAMSIZE (1<<16)
-#define opcode_size 155
+#define opcode_size 147
 
 int* fetch();
 int* decode();
@@ -26,7 +26,7 @@ struct cpu{
 
 struct opcode_table{
     uint8_t opcodes_key;
-    int value; 
+    char* opcode_name; 
     UT_hash_handle hh;
 };
 
@@ -37,17 +37,15 @@ struct Computer{
 };
 
 struct Computer* OurComputer;
+char** opcode_names;
 
 void read_in_binary_image(char* image_name){
-    int fd=open(image_name, O_RDONLY);
-    if (fd < 0) {
-      //fprintf(stderr, "ERROR: Open failed!\n");
-      exit(-1);
+    int n, fd; 
+    if((fd=open(image_name, O_RDONLY)) < 0){
+        exit(-1);
     }
-    int n = read(fd, OurComputer->RAM, RAMSIZE);
-    if (n != RAMSIZE) {
-      //fprintf(stderr, "ERROR: Bad ramfile: %s n=%d\n", image_name, n);
-      exit(-1);
+    if((n = read(fd, OurComputer->RAM, RAMSIZE)) != RAMSIZE){
+        exit(-1);
     }
     close(fd);
 }
@@ -59,30 +57,50 @@ void initalize_program_counter(){
 }
 
 void build_opcode_table(){
-    OurComputer->opcodes = NULL; 
-    // need to read in the opcodes 
+    int n, fd; 
     byte* opcodes_keys;
-    if ((opcodes_keys = (byte*) malloc((opcode_size) * sizeof(byte))) == NULL){
+    OurComputer->opcodes = NULL; 
+
+    // need to read in the opcodes 
+    if((opcodes_keys = (byte*) malloc((opcode_size) * sizeof(byte))) == NULL){
         exit(-1);
     }
-    int fd=open("opcode_names", O_RDONLY);
-    if (fd < 0) {
-        exit(-1);
+    if((fd=open("opcode_values", O_RDONLY)) < 0){
+         exit(-1);
     }
-    int n = read(fd, opcodes_keys, opcode_size);
-    if (n != opcode_size) {
+    if((n = read(fd, opcodes_keys, opcode_size)) != opcode_size){
         exit(-1);
     }
     close(fd);
+    if ((opcode_names = (char**)malloc(sizeof(char*)*opcode_size)) == NULL){ 
+        exit(-1);
+    }
+    for(int i = 0; i < opcode_size; ++i){ 
+        opcode_names[i] = (char*)malloc(sizeof(char)*4); 
+    }
+    if((fd=open("opcode_names.txt", O_RDONLY)) < 0){ 
+        exit(-1);
+    }
+    for(int i = 0; i < opcode_size; ++i){
+        if(read(fd,opcode_names[i],3) != 3){
+            exit(-1);
+        }
+    }
+    close(fd);
+    for(int i = 0; i < opcode_size; i++){
+        printf("%3s, %x\n", opcode_names[i], opcodes_keys[i]);
+    }
+    
     struct opcode_table* s = NULL;
-    for (int i = 0; i  < opcode_size; i++ ){
+    for (int i = 0; i  < opcode_size; i++){
         s = (struct opcode_table*) malloc(sizeof(*s)); // check if NULL? 
         s->opcodes_key = opcodes_keys[i]; // initializing key for s 
-        s->value = 1; // initializing the value for s 
+        s->opcode_name = opcode_names[i]; // initializing the value for s 
         HASH_ADD(hh,OurComputer->opcodes, opcodes_key, sizeof(uint8_t),s); 
         // Adds s = {opcodes_keys[i] : 1} to the hash table 
         // s ~ (key, value), added to opcodes, the hash table. 
     }
+    
 }
 
 int main(int argc, char* argv[]) {
