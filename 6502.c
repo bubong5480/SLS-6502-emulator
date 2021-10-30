@@ -12,7 +12,7 @@
 
 #define byte uint8_t
 #define RAMSIZE (1<<16)
-#define opcode_size 152
+#define opcode_size 155
 
 int* fetch();
 int* decode();
@@ -25,7 +25,7 @@ struct cpu{
 };
 
 struct opcode_table{
-    int opcodes_key;
+    uint8_t opcodes_key;
     int value; 
     UT_hash_handle hh;
 };
@@ -70,7 +70,7 @@ void build_opcode_table(){
         exit(-1);
     }
 
-    int fd=open("opcode_names.imh", O_RDONLY);
+    int fd=open("opcode_names", O_RDONLY);
     if (fd < 0) {
         exit(-1);
     }
@@ -81,13 +81,8 @@ void build_opcode_table(){
         exit(-1);
     }
     close(fd);
-
-    for (int i = 0; i  < opcode_size; i++ ){
-        printf("%x", opcodes_keys[i]);
-    }
     
     struct opcode_table* s = NULL;
-    
     for (int i = 0; i  < opcode_size; i++ ){
         s = (struct opcode_table*) malloc(sizeof(*s)); // check if NULL? 
         s->opcodes_key = opcodes_keys[i]; // initializing key for s 
