@@ -10,3 +10,8 @@
 # outputs
 
 *.out
+
+# op code trash?
+
+opcode_names
+opcode_values
