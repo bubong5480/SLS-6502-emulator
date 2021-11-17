@@ -1,0 +1,12 @@
+# test files/binary images
+
+*.img
+*.imh
+
+# python notebooks
+
+*.ipynb
+
+# outputs
+
+*.out
