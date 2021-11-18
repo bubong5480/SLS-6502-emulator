@@ -8,7 +8,7 @@
 #include <fcntl.h>
 // For read
 #include <unistd.h>
-#include "./src/uthash.h"
+#include "uthash.h"
 
 #define byte uint8_t
 #define address uint16_t
@@ -131,7 +131,18 @@ void ADC(byte opcode, byte* pc){
     OurComputer->cpu_inst->accumulator += ret.pc + ret.arg;
 };
 
+void getRegs(struct Computer OurComputer)
+  {
+  printf("Program Counter: %x\\nAccumulator: %x \nX register: %x \nY register: %x \nStatus register: %x\nStack Pointer: %x\n",
+    OurComputer.cpu_inst->pc, 
+    OurComputer.cpu_inst->accumulator, 
+    OurComputer.cpu_inst->register_x, 
+    OurComputer.cpu_inst->register_y, 
+    OurComputer.cpu_inst->status_register, 
+    OurComputer.cpu_inst->stack_pointer);
+  };
 
+/*
 void AND(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator &= ret.pc; };
 void ASL(byte opcode, byte* pc) {decode(opcode); ret.arg <<= 1};
 void BCC(byte opcode, byte* pc) {decode(opcode); *ret.pc += *ret.arg};
@@ -187,3 +198,4 @@ void TSX(byte opcode, byte* pc) {OurComputer->cpu_inst->register_x = stack_point
 void TXA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator = OurComputer->cpu_inst->register_x};
 void TXS(byte opcode, byte* pc) {stack_reg = OurComputer->cpu_inst->register_x};
 void TYA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator = OurComputer->cpu_inst->register_y};
+*/
