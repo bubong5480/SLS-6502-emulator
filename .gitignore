@@ -15,3 +15,8 @@
 
 opcode_names
 opcode_values
+
+# gcc outputs
+
+emu
+fun

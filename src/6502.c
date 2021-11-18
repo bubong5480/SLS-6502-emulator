@@ -8,7 +8,7 @@
 #include <fcntl.h>
 // For read
 #include <unistd.h>
-#include "./src/uthash.h"
+#include "uthash.h"
 
 #define byte uint8_t
 #define RAMSIZE (1<<16)

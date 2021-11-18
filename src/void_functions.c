@@ -20,7 +20,6 @@ struct cpu* execute();
 void build_opcode_table();
 void decode(byte);
 
-
 struct cpu{
     address* pc; 
     byte accumulator; 
@@ -131,16 +130,39 @@ void ADC(byte opcode, byte* pc){
     OurComputer->cpu_inst->accumulator += ret.pc + ret.arg;
 };
 
-void getRegs(struct Computer OurComputer)
+void getRegs(struct Computer* OurComputer)
   {
-  printf("Program Counter: %x\\nAccumulator: %x \nX register: %x \nY register: %x \nStatus register: %x\nStack Pointer: %x\n",
-    OurComputer.cpu_inst->pc, 
-    OurComputer.cpu_inst->accumulator, 
-    OurComputer.cpu_inst->register_x, 
-    OurComputer.cpu_inst->register_y, 
-    OurComputer.cpu_inst->status_register, 
-    OurComputer.cpu_inst->stack_pointer);
+    printf("RA: 0x%x\nRX: 0x%x\nRY: 0x%x\nRF: 0x%x\nRS: 0x%x\n",
+    OurComputer->cpu_inst->accumulator, 
+    OurComputer->cpu_inst->register_x, 
+    OurComputer->cpu_inst->register_y, 
+    OurComputer->cpu_inst->status_register, 
+    OurComputer->cpu_inst->stack_pointer);
   };
+
+int main(char* argv[]) {
+
+  // allocate memory for Computer Structure
+  if((OurComputer = (struct Computer*) malloc(sizeof(struct Computer))) == NULL){
+    exit(-1);
+  }
+  // initializing size of the RAM to 2^16
+  if ((OurComputer->RAM = (byte*) malloc((1 << 16) * sizeof(byte))) == NULL){
+    exit(-1);
+  }
+  // initializing cpu structure inside of computer
+  if((OurComputer->cpu_inst = (struct cpu*) malloc(sizeof(struct cpu))) == NULL){
+    exit(-1);
+  }
+  
+    OurComputer->cpu_inst->accumulator=0x00;
+    OurComputer->cpu_inst->register_x=0x00;
+    OurComputer->cpu_inst->register_y=0x00;
+    OurComputer->cpu_inst->status_register=0x00;
+    OurComputer->cpu_inst->stack_pointer=0x00;
+    getRegs(OurComputer);
+
+};
 
 /*
 void AND(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator &= ret.pc; };
