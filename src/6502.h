@@ -76,5 +76,6 @@ void getRegisterY(struct Computer* OurComputer);
 void getStatusRegister(struct Computer* OurComputer);
 void getStackPointer(struct Computer* OurComputer);
 void getAllRegs(struct Computer* OurComputer);
+void getProgramCounter(struct Computer* OurComputer);
 
 

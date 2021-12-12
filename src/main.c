@@ -36,5 +36,6 @@ int main(int argc, char* argv[]) {
   OurComputer->cpu_inst->stack_pointer=0x00;
   getAllRegs(OurComputer);
 
+
   return 0;
 }

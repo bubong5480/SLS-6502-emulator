@@ -15,6 +15,9 @@ void getStatusRegister(struct Computer* OurComputer)
 void getStackPointer(struct Computer* OurComputer) 
     { printf("RegSP: 0x%x\n", OurComputer->cpu_inst->stack_pointer); };
 
+void getProgramCounter(struct Computer* OurComputer)
+    { printf("RegPC: 0x%p\n", OurComputer->cpu_inst->pc); };
+
 void getAllRegs(struct Computer* OurComputer)
     { 
         getAccumulator(OurComputer);
@@ -22,4 +25,5 @@ void getAllRegs(struct Computer* OurComputer)
         getRegisterY(OurComputer);
         getStatusRegister(OurComputer);
         getStackPointer(OurComputer);
+        getProgramCounter(OurComputer);
     };
