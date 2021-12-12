@@ -104,4 +104,4 @@ void printBinaryStatusRegister(struct Computer* OurComputer);
 void printStackPointer(struct Computer* OurComputer);
 void printAllRegs(struct Computer* OurComputer);
 void printProgramCounter(struct Computer* OurComputer);
-int dumpBinaryImage(struct Computer *OurComputer, address start, address end);
+int dumpRAM(struct Computer *OurComputer, address start, address end);

@@ -42,7 +42,7 @@ void printAllRegs(struct Computer* OurComputer)
         printProgramCounter(OurComputer);
     };
 
-int dumpBinaryImage(struct Computer *OurComputer, address start, address end) 
+int dumpRAM(struct Computer *OurComputer, address start, address end) 
 {
         address i;
 

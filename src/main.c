@@ -30,5 +30,9 @@ int main(int argc, char* argv[]) {
     printf("1 byte success\n");
   }
 
+  while(1) {
+
+  }
+
   return 0;
 }

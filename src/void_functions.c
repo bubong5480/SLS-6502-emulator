@@ -57,7 +57,7 @@ void clearCarryFlag(struct Computer* OurComputer)
     OurComputer->cpu_inst->status_register & 0b0; }
 
 
-void decode(byte opcode){
+void decode(byte opcode) {
   
   int a_mask, b_mask, c_mask; 
   
@@ -67,19 +67,16 @@ void decode(byte opcode){
 
   if(c_mask == 0){
     switch(b_mask){
-
       // immediate 
       case 0: //XXX010XX
         ret.pc = *(OurComputer->cpu_inst->pc + 1);
         ret.arg = 0;
         break;
-
       // zero-page
       case 1: // XXX001XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0; 
         break;
-
       //  absolute
       case 3: //XXX011XX 
         // do jump checks with a_mask (indirect jump)
@@ -90,13 +87,11 @@ void decode(byte opcode){
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0;
         break; 
-
       // zeropage x 
       case 5: //XXX101XX
         ret.pc= *(address*)((uintptr_t) (OurComputer->cpu_inst->pc + OurComputer->cpu_inst->register_x) % (uintptr_t)(OurComputer->cpu_inst->pc[256]));
         ret.arg = 0;
         break;
-
       // absolute x 
       case 7: //XXX111XX
         ret.pc = *(OurComputer->cpu_inst->pc + OurComputer->cpu_inst->register_x);
@@ -105,44 +100,37 @@ void decode(byte opcode){
     }
   }
   else if (c_mask == 1){
-
     switch(b_mask){
       // indirect X
       case 0: // XXX000XX
         ret.pc = *(address*)(OurComputer->cpu_inst->pc + OurComputer->cpu_inst->register_x);
         ret.arg = 0; 
         break;
-    
       // zero-page
       case 1: // XXX001XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0; 
         break;
-
       //  absolute
       case 3: //XXX011XX , same as zero-page? 
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0;
         break;
-
       // indirect y 
       case 4: //XXX100XX
         ret.pc = * (address*)(uintptr_t)(*(OurComputer->cpu_inst->pc) + OurComputer->cpu_inst->register_y);
         ret.arg = 0; 
         break;  
-
       // zeropage x 
       case 5: //XXX101XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = OurComputer->cpu_inst->register_x; 
         break;
-
       // absolute y 
       case 6: //XXX110XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = OurComputer->cpu_inst->register_y; 
         break;
-
       // absolute x 
       case 7: //XXX111XX
         ret.pc = *OurComputer->cpu_inst->pc;
@@ -151,33 +139,27 @@ void decode(byte opcode){
     }
   }
   else if (c_mask == 2){
-
     switch(b_mask){
       case 0: //XXX010XX
         ret.pc = *(OurComputer->cpu_inst->pc + 1);
         ret.arg = 0; 
         break;
-
       // zero page
       case 1: // XXX001XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0; 
         break;
-
       // case 2: accumulator 
-
       //  absolute
       case 3: //XXX011XX , same as zero-page? 
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0;
         break;
-
       // absolute x 
       case 5: //XXX111XX
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = OurComputer->cpu_inst->register_x; 
         break;
-
       // absolute y 
       case 7: //XXX110XX
         ret.pc = *OurComputer->cpu_inst->pc;
@@ -282,11 +264,12 @@ void decode(byte opcode){
     //}
 } 
 
-void ADC(byte opcode, byte* pc){
+void ADC(byte opcode, byte* pc) {
   decode(opcode);
   OurComputer->cpu_inst->accumulator += ret.pc;
 };
 
+void NOP(byte opcode, byte* pc) { OurComputer->cpu_inst->pc += 1; };
 
 /*
 void AND(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator &= ret.pc; };
