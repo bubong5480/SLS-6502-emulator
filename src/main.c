@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
   initalize_program_counter();
   // check the first byte (for the time being)
   if (*(OurComputer->cpu_inst->pc) == 0xEA){
-    printf("0xEA = poggers\n");
+    printf("1 byte success\n");
   }
 
   return 0;
