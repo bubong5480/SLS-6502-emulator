@@ -64,3 +64,10 @@ void build_opcode_table(){
     // s ~ (key, value), added to opcodes, the hash table.
   }
 }
+
+byte getRegA(struct Computer* OurComputer) { return OurComputer->cpu_inst->accumulator; };
+byte getRegX(struct Computer* OurComputer) { return OurComputer->cpu_inst->register_x; };
+byte getRegY(struct Computer* OurComputer) { return OurComputer->cpu_inst->register_y; };
+byte getRegSF(struct Computer* OurComputer) { return OurComputer->cpu_inst->status_register; };
+byte getRegSP(struct Computer* OurComputer) { return OurComputer->cpu_inst->stack_pointer; };
+address* getRegPC(struct Computer* OurComputer) { return OurComputer->cpu_inst->pc; };

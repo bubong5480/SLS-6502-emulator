@@ -24,7 +24,7 @@ void printHexStatusRegister(struct Computer* OurComputer)
     { printf("RegSF: 0x%x\n", OurComputer->cpu_inst->status_register); };
 
 void printBinaryStatusRegister(struct Computer* OurComputer) 
-    { printf("RegSF: 0x%s\n", toBinary(OurComputer->cpu_inst->status_register, 8)); };
+    { printf("RegSR: 0x%s\n", toBinary(OurComputer->cpu_inst->status_register, 8)); };
 
 void printStackPointer(struct Computer* OurComputer) 
     { printf("RegSP: 0x%x\n", OurComputer->cpu_inst->stack_pointer); };
@@ -42,3 +42,16 @@ void printAllRegs(struct Computer* OurComputer)
         printProgramCounter(OurComputer);
     };
 
+int dumpBinaryImage(struct Computer *OurComputer, address start, address end) 
+{
+        address i;
+
+        for (i = start; i < end; i ++) {
+            if ( (i % 16 == 0 && (i != start)) )
+                printf("\n");
+                printf("%02x ", OurComputer->RAM[i]);
+        }
+        printf("\n");
+
+        return (i - start);
+};

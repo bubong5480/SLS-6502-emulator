@@ -29,24 +29,6 @@ int main(int argc, char* argv[]) {
   if (*(OurComputer->cpu_inst->pc) == 0xEA){
     printf("0xEA = poggers\n");
   }
-  
-  printBinaryStatusRegister(OurComputer);
-  setNegativeFlag(OurComputer);
-  setOverflowFlag(OurComputer);
-  setBreakFlag(OurComputer);
-  setDecimalFlag(OurComputer);
-  setInterruptFlag(OurComputer);
-  setZeroFlag(OurComputer);
-  setCarryFlag(OurComputer);
-  printBinaryStatusRegister(OurComputer);
-  clearNegativeFlag(OurComputer);
-  clearOverflowFlag(OurComputer);
-  clearBreakFlag(OurComputer);
-  clearInterruptFlag(OurComputer);
-  clearZeroFlag(OurComputer);
-  clearCarryFlag(OurComputer);
-  printBinaryStatusRegister(OurComputer);
-
 
   return 0;
 }

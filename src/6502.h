@@ -50,8 +50,9 @@ struct return_{
 struct return_ ret; 
 
 
-// Function headers
-// CPU - initialization and cycle functions
+/* Function headers */
+
+// 6502 - initialization and cycle functions
 int* fetch();
 struct cpu* execute();
 void decode(byte opcode);
@@ -61,8 +62,15 @@ void initalize_program_counter();
 // opcode table
 void build_opcode_table();
 
-/* void_functions headers */
+// get register functions
+byte getRegA(struct Computer* OurComputer);
+byte getRegX(struct Computer* OurComputer);
+byte getRegY(struct Computer* OurComputer);
+byte getRegSF(struct Computer* OurComputer);
+byte getRegSP(struct Computer* OurComputer);
+address* getRegPC(struct Computer* OurComputer);
 
+/* void_functions headers */
 
 // flag functions
 void setNegativeFlag(struct Computer* OurComputer);
@@ -96,4 +104,4 @@ void printBinaryStatusRegister(struct Computer* OurComputer);
 void printStackPointer(struct Computer* OurComputer);
 void printAllRegs(struct Computer* OurComputer);
 void printProgramCounter(struct Computer* OurComputer);
-
+int dumpBinaryImage(struct Computer *OurComputer, address start, address end);

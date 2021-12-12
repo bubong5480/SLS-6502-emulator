@@ -1,4 +1,7 @@
-run: main.c 6502.o void_functions.o test_functions.o
+run: main.c 6502.o void_functions.o
+	gcc main.c 6502.o void_functions.o -o $@
+
+debug: main.c 6502.o void_functions.o test_functions.o
 	gcc main.c 6502.o void_functions.o test_functions.o -o $@
 
 6502.o: 6502.c 6502.h

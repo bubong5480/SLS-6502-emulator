@@ -52,7 +52,7 @@ void setCarryFlag(struct Computer* OurComputer)
   { OurComputer->cpu_inst->status_register = 
     OurComputer->cpu_inst->status_register | 0b1; }
 
-void clearCarryFlag(struct Computer* OurComputer) 
+void clearCarryFlag(struct Computer* OurComputer)
   { OurComputer->cpu_inst->status_register = 
     OurComputer->cpu_inst->status_register & 0b0; }
 
