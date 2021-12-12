@@ -25,16 +25,27 @@ int main(int argc, char* argv[]) {
   read_in_binary_image(file_name);
   build_opcode_table();
   initalize_program_counter();
-  if (*(OurComputer->cpu_inst->pc) != 0xEA){
-    printf("Success\n");
+  // check the first byte (for the time being)
+  if (*(OurComputer->cpu_inst->pc) == 0xEA){
+    printf("0xEA = poggers\n");
   }
   
-  OurComputer->cpu_inst->accumulator=0x00;
-  OurComputer->cpu_inst->register_x=0x00;
-  OurComputer->cpu_inst->register_y=0x00;
-  OurComputer->cpu_inst->status_register=0x00;
-  OurComputer->cpu_inst->stack_pointer=0x00;
-  getAllRegs(OurComputer);
+  printBinaryStatusRegister(OurComputer);
+  setNegativeFlag(OurComputer);
+  setOverflowFlag(OurComputer);
+  setBreakFlag(OurComputer);
+  setDecimalFlag(OurComputer);
+  setInterruptFlag(OurComputer);
+  setZeroFlag(OurComputer);
+  setCarryFlag(OurComputer);
+  printBinaryStatusRegister(OurComputer);
+  clearNegativeFlag(OurComputer);
+  clearOverflowFlag(OurComputer);
+  clearBreakFlag(OurComputer);
+  clearInterruptFlag(OurComputer);
+  clearZeroFlag(OurComputer);
+  clearCarryFlag(OurComputer);
+  printBinaryStatusRegister(OurComputer);
 
 
   return 0;

@@ -63,6 +63,24 @@ void build_opcode_table();
 
 /* void_functions headers */
 
+
+// flag functions
+void setNegativeFlag(struct Computer* OurComputer);
+void clearNegativeFlag(struct Computer* OurComputer); 
+void setOverflowFlag(struct Computer* OurComputer);
+void clearOverflowFlag(struct Computer* OurComputer); 
+void setBreakFlag(struct Computer* OurComputer);
+void clearBreakFlag(struct Computer* OurComputer); 
+void setDecimalFlag(struct Computer* OurComputer);
+void clearDecimalFlag(struct Computer* OurComputer); 
+void setInterruptFlag(struct Computer* OurComputer);
+void clearInterruptFlag(struct Computer* OurComputer); 
+void setZeroFlag(struct Computer* OurComputer);
+void clearZeroFlag(struct Computer* OurComputer); 
+void setCarryFlag(struct Computer* OurComputer);
+void clearCarryFlag(struct Computer* OurComputer); 
+
+
 // opcode functions
 void ADC(byte opcode, byte* pc);
 
@@ -70,12 +88,12 @@ void ADC(byte opcode, byte* pc);
 /* test_functions headers */
 
 // print register functions
-void getAccumulator(struct Computer* OurComputer);
-void getRegisterX(struct Computer* OurComputer);
-void getRegisterY(struct Computer* OurComputer);
-void getStatusRegister(struct Computer* OurComputer);
-void getStackPointer(struct Computer* OurComputer);
-void getAllRegs(struct Computer* OurComputer);
-void getProgramCounter(struct Computer* OurComputer);
-
+void printAccumulator(struct Computer* OurComputer);
+void printRegisterX(struct Computer* OurComputer);
+void printRegisterY(struct Computer* OurComputer);
+void printHexStatusRegister(struct Computer* OurComputer);
+void printBinaryStatusRegister(struct Computer* OurComputer);
+void printStackPointer(struct Computer* OurComputer);
+void printAllRegs(struct Computer* OurComputer);
+void printProgramCounter(struct Computer* OurComputer);
 

@@ -1,29 +1,44 @@
 #include "6502.h"
 
-void getAccumulator(struct Computer* OurComputer) 
+char* toBinary(int n, int len)
+{
+    char* binary = (char*)malloc(sizeof(char) * len);
+    int k = 0;
+    for (unsigned i = (1 << len - 1); i > 0; i = i / 2) {
+        binary[k++] = (n & i) ? '1' : '0';
+    }
+    binary[k] = '\0';
+    return binary;
+}
+
+void printAccumulator(struct Computer* OurComputer) 
     { printf("RegA: 0x%x\n", OurComputer->cpu_inst->accumulator); };
 
-void getRegisterX(struct Computer* OurComputer) 
+void printRegisterX(struct Computer* OurComputer) 
     { printf("RegX: 0x%x\n", OurComputer->cpu_inst->register_x); };
 
-void getRegisterY(struct Computer* OurComputer) 
+void printRegisterY(struct Computer* OurComputer) 
     { printf("RegY: 0x%x\n", OurComputer->cpu_inst->register_y); };
 
-void getStatusRegister(struct Computer* OurComputer) 
+void printHexStatusRegister(struct Computer* OurComputer) 
     { printf("RegSF: 0x%x\n", OurComputer->cpu_inst->status_register); };
 
-void getStackPointer(struct Computer* OurComputer) 
+void printBinaryStatusRegister(struct Computer* OurComputer) 
+    { printf("RegSF: 0x%s\n", toBinary(OurComputer->cpu_inst->status_register, 8)); };
+
+void printStackPointer(struct Computer* OurComputer) 
     { printf("RegSP: 0x%x\n", OurComputer->cpu_inst->stack_pointer); };
 
-void getProgramCounter(struct Computer* OurComputer)
+void printProgramCounter(struct Computer* OurComputer)
     { printf("RegPC: 0x%p\n", OurComputer->cpu_inst->pc); };
 
-void getAllRegs(struct Computer* OurComputer)
+void printAllRegs(struct Computer* OurComputer)
     { 
-        getAccumulator(OurComputer);
-        getRegisterX(OurComputer);
-        getRegisterY(OurComputer);
-        getStatusRegister(OurComputer);
-        getStackPointer(OurComputer);
-        getProgramCounter(OurComputer);
+        printAccumulator(OurComputer);
+        printRegisterX(OurComputer);
+        printRegisterY(OurComputer);
+        printBinaryStatusRegister(OurComputer);
+        printStackPointer(OurComputer);
+        printProgramCounter(OurComputer);
     };
+

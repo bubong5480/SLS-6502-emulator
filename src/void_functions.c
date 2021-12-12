@@ -1,5 +1,62 @@
 #include "6502.h"
 
+void setNegativeFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 7; }
+
+void clearNegativeFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 7; }
+
+void setOverflowFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 6; }
+
+void clearOverflowFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 6; }
+
+void setBreakFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 4; }
+
+void clearBreakFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 4; }
+
+void setDecimalFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 3; }
+
+void clearDecimalFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 3; }
+
+void setInterruptFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 2; }
+
+void clearInterruptFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 2; }
+
+void setZeroFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1 << 1; }
+
+void clearZeroFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0 << 1; }
+
+void setCarryFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register | 0b1; }
+
+void clearCarryFlag(struct Computer* OurComputer) 
+  { OurComputer->cpu_inst->status_register = 
+    OurComputer->cpu_inst->status_register & 0b0; }
+
+
 void decode(byte opcode){
   
   int a_mask, b_mask, c_mask; 
@@ -226,8 +283,8 @@ void decode(byte opcode){
 } 
 
 void ADC(byte opcode, byte* pc){
-    decode(opcode);
-    OurComputer->cpu_inst->accumulator += ret.pc;
+  decode(opcode);
+  OurComputer->cpu_inst->accumulator += ret.pc;
 };
 
 
