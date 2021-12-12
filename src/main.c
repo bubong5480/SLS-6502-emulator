@@ -30,9 +30,18 @@ int main(int argc, char* argv[]) {
     printf("1 byte success\n");
   }
 
+  int count = 0;
   while(1) {
-
+    if (*(OurComputer->cpu_inst->pc) == 0x00) {
+      count++;
+      (OurComputer->cpu_inst->pc)++;
+    }
   }
+  
+  if (count = RAMSIZE - 1) {
+    printf("Memory works");
+  }
+  
 
   return 0;
 }
