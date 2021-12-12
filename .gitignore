@@ -1,22 +1,13 @@
-# test files/binary images
+# Test files/binary images
 
-*.img
 *.imh
 
-# python notebooks
+# Python notebooks
 
 *.ipynb
 
-# outputs
+# Makefile outputs/objects
 
 *.out
-
-# op code trash?
-
-opcode_names
-opcode_values
-
-# gcc outputs
-
-emu
-fun
+*.o
+run
