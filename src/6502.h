@@ -12,14 +12,14 @@
 #include "uthash.h"
 
 // Type definitions
-#define RAMSIZE (1<<16)
+#define RAMSIZE (1<<16)     // Address space = 0x0000 to 0xFFFF
 #define opcode_size 147
 #define byte uint8_t
 #define address uint16_t
 
 // Structure headers and initialization
 struct cpu{
-    address* pc;         // address 
+    address pc;         // address 
     byte accumulator; 
     byte register_x; 
     byte register_y; 
@@ -43,7 +43,7 @@ struct Computer* OurComputer;
 char** opcode_names;
 
 struct return_{
-    address* pc;
+    address pc;
     byte arg;
 };
 
@@ -63,47 +63,46 @@ void initalize_program_counter();
 void build_opcode_table();
 
 // get register functions
-byte getRegA(struct Computer* OurComputer);
-byte getRegX(struct Computer* OurComputer);
-byte getRegY(struct Computer* OurComputer);
-byte getRegSF(struct Computer* OurComputer);
-byte getRegSP(struct Computer* OurComputer);
-address* getRegPC(struct Computer* OurComputer);
+byte getAccumulator();
+byte getRegisterX();
+byte getRegisterY();
+byte getStatusRegister();
+byte getStackPointer();
+address getProgramCounter();
+int resetRegisters();
+
 
 /* void_functions headers */
 
 // flag functions
-void setNegativeFlag(struct Computer* OurComputer);
-void clearNegativeFlag(struct Computer* OurComputer); 
-void setOverflowFlag(struct Computer* OurComputer);
-void clearOverflowFlag(struct Computer* OurComputer); 
-void setBreakFlag(struct Computer* OurComputer);
-void clearBreakFlag(struct Computer* OurComputer); 
-void setDecimalFlag(struct Computer* OurComputer);
-void clearDecimalFlag(struct Computer* OurComputer); 
-void setInterruptFlag(struct Computer* OurComputer);
-void clearInterruptFlag(struct Computer* OurComputer); 
-void setZeroFlag(struct Computer* OurComputer);
-void clearZeroFlag(struct Computer* OurComputer); 
-void setCarryFlag(struct Computer* OurComputer);
-void clearCarryFlag(struct Computer* OurComputer); 
-
-int resetRegs(struct Computer* OurComputer);
+void setNegativeFlag();
+void clearNegativeFlag(); 
+void setOverflowFlag();
+void clearOverflowFlag(); 
+void setBreakFlag();
+void clearBreakFlag(); 
+void setDecimalFlag();
+void clearDecimalFlag(); 
+void setInterruptFlag();
+void clearInterruptFlag(); 
+void setZeroFlag();
+void clearZeroFlag(); 
+void setCarryFlag();
+void clearCarryFlag(); 
 
 // opcode functions
-void ADC(byte opcode, address* pc);
+void ADC(byte opcode, address pc);
 
 
 /* test_functions headers */
 
 // print register functions
-void printAccumulator(struct Computer* OurComputer);
-void printRegisterX(struct Computer* OurComputer);
-void printRegisterY(struct Computer* OurComputer);
-void printHexStatusRegister(struct Computer* OurComputer);
-void printBinaryStatusRegister(struct Computer* OurComputer);
-void printStackPointer(struct Computer* OurComputer);
-void printAllRegs(struct Computer* OurComputer);
-void printProgramCounter(struct Computer* OurComputer);
+void printAccumulator();
+void printRegisterX();
+void printRegisterY();
+void printHexStatusRegister();
+void printBinaryStatusRegister();
+void printStackPointer();
+void printAllRegs();
+void printProgramCounter();
 int dumpRAM(struct Computer *OurComputer, address start, address end);
-int dumpRAMPTR(struct Computer *OurComputer, address start, address end);

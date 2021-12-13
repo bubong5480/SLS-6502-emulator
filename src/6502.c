@@ -12,9 +12,7 @@ void read_in_binary_image(char* image_name){
 }
 
 // Make program counter point to first byte of RAM
-void initalize_program_counter(){
-  OurComputer->cpu_inst->pc = (byte*) OurComputer->RAM;
-}
+void initalize_program_counter() { OurComputer->cpu_inst->pc = 0; }
 
 // Builds opcode table
 void build_opcode_table(){
@@ -65,14 +63,14 @@ void build_opcode_table(){
   }
 }
 
-byte getRegA(struct Computer* OurComputer) { return OurComputer->cpu_inst->accumulator; };
-byte getRegX(struct Computer* OurComputer) { return OurComputer->cpu_inst->register_x; };
-byte getRegY(struct Computer* OurComputer) { return OurComputer->cpu_inst->register_y; };
-byte getRegSF(struct Computer* OurComputer) { return OurComputer->cpu_inst->status_register; };
-byte getRegSP(struct Computer* OurComputer) { return OurComputer->cpu_inst->stack_pointer; };
-address* getRegPC(struct Computer* OurComputer) { return OurComputer->cpu_inst->pc; };
+byte getAccumulator() { return OurComputer->cpu_inst->accumulator; };
+byte getRegisterX() { return OurComputer->cpu_inst->register_x; };
+byte getRegisterY() { return OurComputer->cpu_inst->register_y; };
+byte getStatusRegister() { return OurComputer->cpu_inst->status_register; };
+byte getStackPointer() { return OurComputer->cpu_inst->stack_pointer; };
+address getProgramCounter() { return OurComputer->cpu_inst->pc; };
 
-int resetRegs(struct Computer* OurComputer) {
+int resetRegisters() {
     OurComputer->cpu_inst->accumulator = 0;
     OurComputer->cpu_inst->register_x = 0;
     OurComputer->cpu_inst->register_y = 0;

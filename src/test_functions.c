@@ -11,59 +11,30 @@ char* toBinary(int n, int len)
     return binary;
 }
 
-void printAccumulator(struct Computer* OurComputer) 
-    { printf("RegA: 0x%x\n", OurComputer->cpu_inst->accumulator); };
+void printAccumulator() { printf("RegA: 0x%x\n", getAccumulator()); };
+void printRegisterX() { printf("RegX: 0x%x\n", getRegisterX()); };
+void printRegisterY() { printf("RegY: 0x%x\n", getRegisterY()); };
+void printHexStatusRegister() { printf("RegSF: 0x%x\n", getStatusRegister()); };
+void printBinaryStatusRegister() { printf("RegSR: 0x%s\n", toBinary(getStatusRegister(), 8)); };
+void printStackPointer() { printf("RegSP: 0x%x\n", getStackPointer()); };
+void printProgramCounter() { printf("RegPC: 0x%x\n", getProgramCounter()); };
 
-void printRegisterX(struct Computer* OurComputer) 
-    { printf("RegX: 0x%x\n", OurComputer->cpu_inst->register_x); };
-
-void printRegisterY(struct Computer* OurComputer) 
-    { printf("RegY: 0x%x\n", OurComputer->cpu_inst->register_y); };
-
-void printHexStatusRegister(struct Computer* OurComputer) 
-    { printf("RegSF: 0x%x\n", OurComputer->cpu_inst->status_register); };
-
-void printBinaryStatusRegister(struct Computer* OurComputer) 
-    { printf("RegSR: 0x%s\n", toBinary(OurComputer->cpu_inst->status_register, 8)); };
-
-void printStackPointer(struct Computer* OurComputer) 
-    { printf("RegSP: 0x%x\n", OurComputer->cpu_inst->stack_pointer); };
-
-void printProgramCounter(struct Computer* OurComputer)
-    { printf("RegPC: 0x%p\n", OurComputer->cpu_inst->pc); };
-
-void printAllRegs(struct Computer* OurComputer)
-    { 
-        printAccumulator(OurComputer);
-        printRegisterX(OurComputer);
-        printRegisterY(OurComputer);
-        printBinaryStatusRegister(OurComputer);
-        printStackPointer(OurComputer);
-        printProgramCounter(OurComputer);
+void printAllRegs() { 
+        printAccumulator();
+        printRegisterX();
+        printRegisterY();
+        printBinaryStatusRegister();
+        printStackPointer();
+        printProgramCounter();
     };
 
-int dumpRAM(struct Computer *OurComputer, address start, address end) 
-{
+int dumpRAM(struct Computer *OurComputer, address start, address end) {
         address i;
 
         for (i = start; i < end; i ++) {
             if ( (i % 16 == 0 && (i != start)) )
                 printf("\n");
                 printf("%02x ", OurComputer->RAM[i]);
-        }
-        printf("\n");
-
-        return (i - start);
-};
-
-int dumpRAMPTR(struct Computer *OurComputer, address start, address end) 
-{
-        address i;
-
-        for (i = start; i < end; i ++) {
-            if ( (i % 16 == 0 && (i != start)) )
-                printf("\n");
-                printf("%02x ", *(OurComputer->cpu_inst->pc+i));
         }
         printf("\n");
 

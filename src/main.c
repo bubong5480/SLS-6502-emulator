@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     exit(-1);
   }
   // initializing size of the RAM to 2^16
-  if ((OurComputer->RAM = (byte*) malloc((1 << 16) * sizeof(byte))) == NULL){
+  if ((OurComputer->RAM = (byte*) malloc(RAMSIZE * sizeof(byte))) == NULL){
     exit(-1);
   }
   // initializing cpu structure inside of computer
@@ -26,34 +26,34 @@ int main(int argc, char* argv[]) {
   build_opcode_table();
   initalize_program_counter();
   // check the first byte (for the time being)
-  if (*(OurComputer->cpu_inst->pc) == 0xEA){
-    printf("1 byte success\n");
-  }
 
-  int count = 0; 
-  resetRegs(OurComputer);
-  dumpRAM(OurComputer, 0, 2);
-  dumpRAMPTR(OurComputer, 0, 8);
-  for (int i = 0; i < 2; i++) {
-    byte opcode = *(OurComputer->cpu_inst->pc);
-    printf("------\nopcode: %x\n", opcode);
+  resetRegisters();
+  dumpRAM(OurComputer, 0, 8);
+
+  for (int i = 0; i < RAMSIZE; i++) {
+    byte opcode = OurComputer->RAM[getProgramCounter()];
     
     if (opcode == 0x00) {
-      count += 1;
-      ((OurComputer->cpu_inst->pc) += 1);
+      printf("%x NOP\n", i);
+      (OurComputer->cpu_inst->pc += 1);
     } 
     else {
-        count += 2;
+      if (i == RAMSIZE - 1) {
+        printf("%x NOP\n", i);
+        (OurComputer->cpu_inst->pc += 1);
+      }
+      else if (opcode == 0x69) {
+        printf("------\n%x opcode: %x\n", i, opcode);
         ADC(opcode, OurComputer->cpu_inst->pc);
-        (OurComputer->cpu_inst->pc)+= 2;
+        (OurComputer->cpu_inst->pc) += 2;
         printAccumulator(OurComputer);
+      }
+      else {
+        printf("%x NOP\n", i);
+        (OurComputer->cpu_inst->pc += 1);
+      }
     }
   }
-  
-  if (count == RAMSIZE) {
-    printf("Memory works\n");
-  }
-  
 
   return 0;
 }

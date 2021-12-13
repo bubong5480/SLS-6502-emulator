@@ -1,62 +1,27 @@
 #include "6502.h"
 
-void setNegativeFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 7; }
+void setNegativeFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 7; }
+void clearNegativeFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 7; }
 
-void clearNegativeFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 7; }
+void setOverflowFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 6; }
+void clearOverflowFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 6; }
 
-void setOverflowFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 6; }
+void setBreakFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 4; }
+void clearBreakFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 4; }
 
-void clearOverflowFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 6; }
+void setDecimalFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 3; }
+void clearDecimalFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 3; }
 
-void setBreakFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 4; }
+void setInterruptFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 2; }
+void clearInterruptFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 2; }
 
-void clearBreakFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 4; }
+void setZeroFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1 << 1; }
+void clearZeroFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0 << 1; }
 
-void setDecimalFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 3; }
+void setCarryFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1; }
+void clearCarryFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0; }
 
-void clearDecimalFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 3; }
-
-void setInterruptFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 2; }
-
-void clearInterruptFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 2; }
-
-void setZeroFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1 << 1; }
-
-void clearZeroFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0 << 1; }
-
-void setCarryFlag(struct Computer* OurComputer) 
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register | 0b1; }
-
-void clearCarryFlag(struct Computer* OurComputer)
-  { OurComputer->cpu_inst->status_register = 
-    OurComputer->cpu_inst->status_register & 0b0; }
-
-
+/*
 void decode(byte opcode) {
   
   int a_mask, b_mask, c_mask; 
@@ -268,12 +233,12 @@ void decode(byte opcode) {
     //     break;
     //}
 } 
-
-void ADC(byte opcode, address* pc) {
+*/
+void ADC(byte opcode, address pc) {
   // decode(opcode);
 
-  ret.pc = *(pc + 1);
-  ret.arg = ret.pc;
+  ret.pc = pc + 1;
+  ret.arg = OurComputer->RAM[ret.pc];
   
   printf("%x + %x\n", OurComputer->cpu_inst->accumulator, ret.arg);
   OurComputer->cpu_inst->accumulator += ret.arg;
