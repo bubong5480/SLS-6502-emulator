@@ -244,7 +244,6 @@ void ADC(byte opcode, address pc) {
   OurComputer->cpu_inst->accumulator += ret.arg;
 };
 
-void NOP(byte opcode, byte* pc) { OurComputer->cpu_inst->pc += 1; };
 
 /*
 void AND(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator &= ret.pc; };
@@ -264,10 +263,27 @@ void BRK(byte opcode, byte* pc) {
 }
 void BVC(byte opcode, byte* pc) {if V==0{BCC(opcode, pc)}};
 void BVS(byte opcode, byte* pc) {if V==1{BCC(opcode, pc)}};
-void CLC(byte opcode, byte* pc) {carry = 0};
-void CLD(byte opcode, byte* pc) {D = 0};
-void CLI(byte opcode, byte* pc) {I = 0};
-void CLV(byte opcode, byte* pc) {V = 0};
+*/
+
+void CLC() {
+  clearCarryFlag();
+  OurComputer->cpu_inst->pc++;
+}
+
+void CLD() {
+  clearDecimalFlag();
+  OurComputer->cpu_inst->pc++;
+}
+
+void CLI() {
+  clearInterruptFlag();
+  OurComputer->cpu_inst->pc++;
+}
+void CLV() {
+  clearOverflowFlag();
+  OurComputer->cpu_inst->pc++;
+}
+/*
 void CMD(byte opcode, byte* pc) {V = 0};
 void CPX(byte opcode, byte* pc) {if zero == 0{BCC(opcode, pc)}};
 void CPY(byte opcode, byte* pc) {if zero == 0{BCC(opcode, pc)}};
@@ -290,6 +306,10 @@ void LDX(byte opcode, byte* pc) {reg_x = *OurComputer->cpu_inst->pc};
 void LDY(byte opcode, byte* pc) {reg_y = *OurComputer->cpu_inst->pc};
 void LSR(byte opcode, byte* pc) {decode(opcode); *ret.arg >>= 1};
 void LSR(byte opcode, byte* pc) {pc +=1 };
+*/
+void NOP(byte opcode, byte* pc) { OurComputer->cpu_inst->pc += 1; };
+
+/*
 void ORA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
 void PHA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
 void PHP(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
@@ -306,9 +326,20 @@ void RTS(byte opcode, byte* pc) {
   rotate *ret.arg by 1 bit right
 }
 void SBC(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator -= *(ret.pc + ret.arg)};
-void SEC(byte opcode, byte* pc) {carry = 1};
-void SED(byte opcode, byte* pc) {D = 1};
-void SEI(byte opcode, byte* pc) {I = 1};
+*/
+void SEC() {
+  setCarryFlag();
+  OurComputer->cpu_inst->pc++;
+}
+void SED() {
+  clearDecimalFlag();
+  OurComputer->cpu_inst->pc++;
+}
+void SEI() {
+  clearInterruptFlag();
+  OurComputer->cpu_inst->pc++;
+}
+/*
 void STA(byte opcode, byte* pc) {*OurComputer->cpu_inst->pc = OurComputer->cpu_inst->accumulator};
 void STX(byte opcode, byte* pc) {OurComputer->cpu_inst->register_x = *OurComputer->cpu_inst->pc};
 void STY(byte opcode, byte* pc) {OurComputer->cpu_inst->register_y = *OurComputer->cpu_inst->pc};
