@@ -63,7 +63,7 @@ int dumpRAMPTR(struct Computer *OurComputer, address start, address end)
         for (i = start; i < end; i ++) {
             if ( (i % 16 == 0 && (i != start)) )
                 printf("\n");
-                printf("%02x ", *OurComputer->cpu_inst->pc+i);
+                printf("%02x ", *(OurComputer->cpu_inst->pc+i));
         }
         printf("\n");
 

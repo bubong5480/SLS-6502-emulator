@@ -33,14 +33,14 @@ int main(int argc, char* argv[]) {
   int count = 0; 
   resetRegs(OurComputer);
   dumpRAM(OurComputer, 0, 2);
-  dumpRAMPTR(OurComputer, 0, 2);
+  dumpRAMPTR(OurComputer, 0, 8);
   for (int i = 0; i < 2; i++) {
     byte opcode = *(OurComputer->cpu_inst->pc);
     printf("------\nopcode: %x\n", opcode);
     
     if (opcode == 0x00) {
       count += 1;
-      (OurComputer->cpu_inst->pc) += 1;
+      ((OurComputer->cpu_inst->pc) += 1);
     } 
     else {
         count += 2;

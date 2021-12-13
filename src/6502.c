@@ -13,7 +13,7 @@ void read_in_binary_image(char* image_name){
 
 // Make program counter point to first byte of RAM
 void initalize_program_counter(){
-  OurComputer->cpu_inst->pc = OurComputer->RAM;
+  OurComputer->cpu_inst->pc = (byte*) OurComputer->RAM;
 }
 
 // Builds opcode table
