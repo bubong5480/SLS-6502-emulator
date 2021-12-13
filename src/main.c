@@ -25,35 +25,8 @@ int main(int argc, char* argv[]) {
   read_in_binary_image(file_name);
   build_opcode_table();
   initalize_program_counter();
-  // check the first byte (for the time being)
-
   resetRegisters();
-  dumpRAM(OurComputer, 0, 8);
 
-  for (int i = 0; i < RAMSIZE; i++) {
-    byte opcode = OurComputer->RAM[getProgramCounter()];
-    
-    if (opcode == 0x00) {
-      printf("%x NOP\n", i);
-      (OurComputer->cpu_inst->pc += 1);
-    } 
-    else {
-      if (i == RAMSIZE - 1) {
-        printf("%x NOP\n", i);
-        (OurComputer->cpu_inst->pc += 1);
-      }
-      else if (opcode == 0x69) {
-        printf("------\n%x opcode: %x\n", i, opcode);
-        ADC(opcode, OurComputer->cpu_inst->pc);
-        (OurComputer->cpu_inst->pc) += 2;
-        printAccumulator(OurComputer);
-      }
-      else {
-        printf("%x NOP\n", i);
-        (OurComputer->cpu_inst->pc += 1);
-      }
-    }
-  }
 
   return 0;
 }
