@@ -30,16 +30,28 @@ int main(int argc, char* argv[]) {
     printf("1 byte success\n");
   }
 
-  int count = 0;
-  while(1) {
-    if (*(OurComputer->cpu_inst->pc) == 0x00) {
-      count++;
-      (OurComputer->cpu_inst->pc)++;
+  int count = 0; 
+  resetRegs(OurComputer);
+  dumpRAM(OurComputer, 0, 2);
+  dumpRAMPTR(OurComputer, 0, 2);
+  for (int i = 0; i < 2; i++) {
+    byte opcode = *(OurComputer->cpu_inst->pc);
+    printf("------\nopcode: %x\n", opcode);
+    
+    if (opcode == 0x00) {
+      count += 1;
+      (OurComputer->cpu_inst->pc) += 1;
+    } 
+    else {
+        count += 2;
+        ADC(opcode, OurComputer->cpu_inst->pc);
+        (OurComputer->cpu_inst->pc)+= 2;
+        printAccumulator(OurComputer);
     }
   }
   
-  if (count = RAMSIZE - 1) {
-    printf("Memory works");
+  if (count == RAMSIZE) {
+    printf("Memory works\n");
   }
   
 

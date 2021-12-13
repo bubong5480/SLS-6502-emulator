@@ -19,7 +19,7 @@
 
 // Structure headers and initialization
 struct cpu{
-    address* pc; 
+    address* pc;         // address 
     byte accumulator; 
     byte register_x; 
     byte register_y; 
@@ -43,7 +43,7 @@ struct Computer* OurComputer;
 char** opcode_names;
 
 struct return_{
-    address pc;
+    address* pc;
     byte arg;
 };
 
@@ -88,9 +88,10 @@ void clearZeroFlag(struct Computer* OurComputer);
 void setCarryFlag(struct Computer* OurComputer);
 void clearCarryFlag(struct Computer* OurComputer); 
 
+int resetRegs(struct Computer* OurComputer);
 
 // opcode functions
-void ADC(byte opcode, byte* pc);
+void ADC(byte opcode, address* pc);
 
 
 /* test_functions headers */
@@ -105,3 +106,4 @@ void printStackPointer(struct Computer* OurComputer);
 void printAllRegs(struct Computer* OurComputer);
 void printProgramCounter(struct Computer* OurComputer);
 int dumpRAM(struct Computer *OurComputer, address start, address end);
+int dumpRAMPTR(struct Computer *OurComputer, address start, address end);

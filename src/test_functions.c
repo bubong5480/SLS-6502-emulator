@@ -55,3 +55,17 @@ int dumpRAM(struct Computer *OurComputer, address start, address end)
 
         return (i - start);
 };
+
+int dumpRAMPTR(struct Computer *OurComputer, address start, address end) 
+{
+        address i;
+
+        for (i = start; i < end; i ++) {
+            if ( (i % 16 == 0 && (i != start)) )
+                printf("\n");
+                printf("%02x ", *OurComputer->cpu_inst->pc+i);
+        }
+        printf("\n");
+
+        return (i - start);
+};

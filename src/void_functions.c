@@ -111,6 +111,11 @@ void decode(byte opcode) {
         ret.pc = *OurComputer->cpu_inst->pc;
         ret.arg = 0; 
         break;
+      // immediate
+      case 2: 
+        ret.pc = *(OurComputer->cpu_inst->pc + 1);
+        ret.arg = 0;
+        break;
       //  absolute
       case 3: //XXX011XX , same as zero-page? 
         ret.pc = *OurComputer->cpu_inst->pc;
@@ -264,9 +269,14 @@ void decode(byte opcode) {
     //}
 } 
 
-void ADC(byte opcode, byte* pc) {
-  decode(opcode);
-  OurComputer->cpu_inst->accumulator += ret.pc;
+void ADC(byte opcode, address* pc) {
+  // decode(opcode);
+
+  ret.pc = *(pc + 1);
+  ret.arg = ret.pc;
+  
+  printf("%x + %x\n", OurComputer->cpu_inst->accumulator, ret.arg);
+  OurComputer->cpu_inst->accumulator += ret.arg;
 };
 
 void NOP(byte opcode, byte* pc) { OurComputer->cpu_inst->pc += 1; };
