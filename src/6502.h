@@ -69,7 +69,7 @@ byte getRegisterY();
 byte getStatusRegister();
 byte getStackPointer();
 address getProgramCounter();
-int resetRegisters();
+int reset_registers();
 
 
 /* void_functions headers */

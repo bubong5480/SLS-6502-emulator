@@ -236,64 +236,188 @@ void decode(byte opcode) {
 */
 void ADC(byte opcode, address pc) {
   // decode(opcode);
-
-  ret.pc = pc + 1;
-  ret.arg = OurComputer->RAM[ret.pc];
-  
-  printf("%x + %x\n", OurComputer->cpu_inst->accumulator, ret.arg);
   OurComputer->cpu_inst->accumulator += ret.arg;
+
+    // update PC 
 };
 
+void AND(byte opcode, address pc) {
+  // decode(opcode); 
+  OurComputer->cpu_inst->accumulator &= ret.arg; 
+
+  // update PC 
+};
 
 /*
-void AND(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator &= ret.pc; };
-void ASL(byte opcode, byte* pc) {decode(opcode); ret.arg <<= 1};
-void BCC(byte opcode, byte* pc) {
-  decode(opcode); *ret.pc += *ret.arg
-}
+// ASL uses either an address or Accumulator
+// needs decode done
 
+void ASL(byte opcode, address pc) {
+  // decode(opcode); 
+  ret.arg <<= 1;
+};
+
+// BCC - branch on Carry Flag = 0
+void BCC(byte opcode, address pc) {
+  // decode(opcode); 
+  *ret.pc += *ret.arg
+};
+
+// BSC - branch on Carry Flag = 1
 void BCS(byte opcode, byte* pc) {if carry == 1{BCC(opcode, pc)}};
+
+// BEQ - branch on Zero Flag = 1
 void BEQ(byte opcode, byte* pc) {if zero == 1{BCC(opcode, pc)}};
+
+// BIT - bits 7 and 6 of operand are transfered to bit 7 and 6 of SR (N,V);
+// the zero-flag is set to the result of operand AND accumulator.
+
 void BIT(byte opcode, byte* pc) {if zero == 1{BCC(opcode, pc)}};
+
+// BMI - branch on Negative Flag = 1
 void BMI(byte opcode, byte* pc) {if N == 1{BCC(opcode, pc)}};
+
+// BNE - branch on Zero Flag = 1
 void BNE(byte opcode, byte* pc) {if zero == 0{BCC(opcode, pc)}};
+
+// BPL - branch on Negative Flag = 0
 void BPL(byte opcode, byte* pc) {if N==0{BCC(opcode, pc)}};
+
+// BRK - break
 void BRK(byte opcode, byte* pc) {
   // set flags
 }
+
+// BVC - branch on Overflow = 0
 void BVC(byte opcode, byte* pc) {if V==0{BCC(opcode, pc)}};
+
+// BVS - branch on Overlflow = 1
 void BVS(byte opcode, byte* pc) {if V==1{BCC(opcode, pc)}};
 */
 
 void CLC() {
   clearCarryFlag();
-  OurComputer->cpu_inst->pc++;
-}
+  OurComputer->cpu_inst->pc++;    // update PC
+};
 
 void CLD() {
   clearDecimalFlag();
-  OurComputer->cpu_inst->pc++;
-}
+  OurComputer->cpu_inst->pc++;    // update PC
+};
 
 void CLI() {
   clearInterruptFlag();
-  OurComputer->cpu_inst->pc++;
-}
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
 void CLV() {
   clearOverflowFlag();
-  OurComputer->cpu_inst->pc++;
-}
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void CMP(byte opcode, address pc) {
+  // decode(opcode);
+  byte a = getAccumulator() - OurComputer->RAM[pc];
+
+  if (a == 0) {
+    setZeroFlag();
+  } else {
+    clearZeroFlag();
+  }
+
+  if (a < 0) {
+    setNegativeFlag();
+  } else {
+    clearNegativeFlag();
+  }
+
+  // Carry flag set/clear
+
+  // update PC 
+};
+
+void CPX(byte opcode, address pc) {
+  // decode(opcode);
+  byte x = getRegisterX() - OurComputer->RAM[pc];
+
+  if (x == 0) {
+    setZeroFlag();
+  } else {
+    clearZeroFlag();
+  }
+
+  if (x < 0) {
+    setNegativeFlag();
+  } else {
+    clearNegativeFlag();
+  }
+
+  // Carry flag set/clear
+
+  // update PC 
+};
+void CPY(byte opcode, address pc) {
+  // decode(opcode);
+  byte y = getRegisterY() - OurComputer->RAM[pc];
+
+  if (y == 0) {
+    setZeroFlag();
+  } else {
+    clearZeroFlag();
+  }
+
+  if (y < 0) {
+    setNegativeFlag();
+  } else {
+    clearNegativeFlag();
+  }
+
+  // Carry flag set/clear
+
+  // update PC 
+};
+
+void DEC(byte opcode, address pc) {
+  OurComputer->RAM[pc] -= 1;
+
+  // update PC 
+};
+
+void DEX() {
+  OurComputer->cpu_inst->register_x -= 1;
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void DEY() {
+  OurComputer->cpu_inst->register_y -= 1;
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void EOR(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->cpu_inst->accumulator ^= ret.arg; 
+
+  // update PC 
+
+};
+
+void INC(byte opcode, address pc) {
+  OurComputer->RAM[pc] += 1;
+
+  // update PC 
+};
+
+void INX() {
+  OurComputer->cpu_inst->register_x += 1;
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void INY() {
+  OurComputer->cpu_inst->register_y += 1;
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
 /*
-void CMD(byte opcode, byte* pc) {V = 0};
-void CPX(byte opcode, byte* pc) {if zero == 0{BCC(opcode, pc)}};
-void CPY(byte opcode, byte* pc) {if zero == 0{BCC(opcode, pc)}};
-void DEC(byte opcode, byte* pc) {*OurComputer->cpu_inst->pc -= 1};
-void DEX(byte opcode, byte* pc) {*OurComputer->cpu_inst->pc -= OurComputer->cpu_inst->register_x};
-void DEY(byte opcode, byte* pc) {*OurComputer->cpu_inst->pc -= OurComputer->cpu_inst->register_y};
-void EOR(byte opcode, byte* pc) {decode(opcode); OurComputer->accumulator ^= *ret.arg};
-void INC(byte opcode, byte* pc) {decode(opcode); *ret.pc += 1};
-void INX(byte opcode, byte* pc) {reg_x += 1};
-void INY(byte opcode, byte* pc) {reg_y += 1};
 void JMP(byte opcode, byte* pc) {
   decode(opcode); 
   *OurComputer->cpu_inst->pc = *ret.pc;
@@ -301,57 +425,183 @@ void JMP(byte opcode, byte* pc) {
 void JSR(byte opcode, byte* pc) {
   // jmp (absolute)
 }
-void LDA(byte opcode, byte* pc) {OurComputer->accumulator = *OurComputer->cpu_inst->pc};
-void LDX(byte opcode, byte* pc) {reg_x = *OurComputer->cpu_inst->pc};
-void LDY(byte opcode, byte* pc) {reg_y = *OurComputer->cpu_inst->pc};
-void LSR(byte opcode, byte* pc) {decode(opcode); *ret.arg >>= 1};
-void LSR(byte opcode, byte* pc) {pc +=1 };
 */
-void NOP(byte opcode, byte* pc) { OurComputer->cpu_inst->pc += 1; };
+
+void LDA(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->cpu_inst->accumulator = OurComputer->RAM[pc];
+
+  // update PC
+  };
+
+void LDX(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->cpu_inst->register_x  = OurComputer->RAM[pc];
+
+  // update PC
+};
+
+void LDY(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->cpu_inst->register_y  = OurComputer->RAM[pc];
+
+  // update PC
+};
+
+/* 
+// LSR uses either an address or Accumulator
+// needs decode done
+// Left Shift
+void LSR(byte opcode, byte* pc) {
+  // decode(opcode); 
+  ret.arg >>= 1};
+
+};
+*/
+
+void NOP(byte opcode, address pc) { 
+  OurComputer->cpu_inst->pc += 1;   // update PC
+};
+
+void ORA(byte opcode, address pc) {
+  OurComputer->cpu_inst->accumulator |= OurComputer->RAM[pc];
+
+  // update PC
+};
 
 /*
-void ORA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
-void PHA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
-void PHP(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
-void PLA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
-void PLP(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc};
+// Stack functions: PH - Push and PL - Pull opcodes 
+
+void PHA(byte opcode, address pc) {
+  OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc;
+};
+
+void PHP(byte opcode, address pc) {
+  OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc;
+};
+
+void PLA(byte opcode, address pc) {
+  OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc;
+};
+
+void PLP(byte opcode, address pc) {
+  OurComputer->cpu_inst->accumulator ^= *OurComputer->cpu_inst->pc
+};
+*/
+
+/*
 void ROL(byte opcode, byte* pc) {decode(opcode); rotate *ret.arg by 1 bit left};
 void ROR(byte opcode, byte* pc) {decode(opcode); rotate *ret.arg by 1 bit right};
+
+// Return from Interrupt
 void RTI(byte opcode, byte* pc) {
   // flag shit
   rotate *ret.arg by 1 bit right
 }
+
+// Return from Subroutine
 void RTS(byte opcode, byte* pc) {
   // flag shit
   rotate *ret.arg by 1 bit right
 }
-void SBC(byte opcode, byte* pc) {decode(opcode); OurComputer->cpu_inst->accumulator -= *(ret.pc + ret.arg)};
 */
+
+// Subtract Memory from Accumulator with Borrow
+void SBC(byte opcode, address pc) {
+  // decode(opcode); 
+  OurComputer->cpu_inst->accumulator -= ret.arg;
+
+  // update PC 
+};
+
 void SEC() {
   setCarryFlag();
-  OurComputer->cpu_inst->pc++;
-}
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
 void SED() {
   clearDecimalFlag();
-  OurComputer->cpu_inst->pc++;
-}
+  
+  
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
 void SEI() {
   clearInterruptFlag();
-  OurComputer->cpu_inst->pc++;
-}
-/*
-void STA(byte opcode, byte* pc) {*OurComputer->cpu_inst->pc = OurComputer->cpu_inst->accumulator};
-void STX(byte opcode, byte* pc) {OurComputer->cpu_inst->register_x = *OurComputer->cpu_inst->pc};
-void STY(byte opcode, byte* pc) {OurComputer->cpu_inst->register_y = *OurComputer->cpu_inst->pc};
-void TAX(byte opcode, byte* pc) {OurComputer->cpu_inst->register_x = OurComputer->cpu_inst->accumulator};
-void TAY(byte opcode, byte* pc) {OurComputer->cpu_inst->register_y = OurComputer->cpu_inst->accumulator};
-void TSX(byte opcode, byte* pc) {OurComputer->cpu_inst->register_x = stack_pointer};
-void TXA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator = OurComputer->cpu_inst->register_x};
-void TXS(byte opcode, byte* pc) {stack_reg = OurComputer->cpu_inst->register_x};
-void TYA(byte opcode, byte* pc) {OurComputer->cpu_inst->accumulator = OurComputer->cpu_inst->register_y};
 
-void NOP(byte opcode, byte* pc) {OurComputer->cpu_inst->pc += 1 };
-*/
+  // update PC
+  OurComputer->cpu_inst->pc++;
+};
+
+void STA(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->RAM[pc] = getAccumulator();
+
+  // update PC
+};
+
+void STX(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->RAM[pc] = getRegisterX();
+
+  // update PC
+};
+
+void STY(byte opcode, address pc) {
+  // decode(opcode);
+  OurComputer->RAM[pc] = getRegisterY();
+
+  // update PC
+};
+
+void TAX() {
+  OurComputer->cpu_inst->register_x = getAccumulator();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void TAY() {
+  OurComputer->cpu_inst->register_y = getAccumulator();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void TSX() {
+  OurComputer->cpu_inst->register_x = getStackPointer();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void TXA() {
+  OurComputer->cpu_inst->accumulator = getRegisterX();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void TXS() {
+  OurComputer->cpu_inst->stack_pointer = getRegisterX();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+};
+
+void TYA() {
+  OurComputer->cpu_inst->accumulator = getRegisterY();
+
+  OurComputer->cpu_inst->pc++;    // update PC
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

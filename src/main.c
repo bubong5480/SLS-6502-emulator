@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
   read_in_binary_image(file_name);
   build_opcode_table();
   initalize_program_counter();
-  resetRegisters();
+  reset_registers();
 
 
   return 0;

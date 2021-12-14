@@ -9,10 +9,10 @@ void read_in_binary_image(char* image_name){
     exit(-1);
   }
   close(fd);
-}
+};
 
 // Make program counter point to first byte of RAM
-void initalize_program_counter() { OurComputer->cpu_inst->pc = 0; }
+void initalize_program_counter() { OurComputer->cpu_inst->pc = 0; };
 
 // Builds opcode table
 void build_opcode_table(){
@@ -61,7 +61,7 @@ void build_opcode_table(){
     // Adds s = {opcodes_keys[i] : 1} to the hash table
     // s ~ (key, value), added to opcodes, the hash table.
   }
-}
+};
 
 byte getAccumulator() { return OurComputer->cpu_inst->accumulator; };
 byte getRegisterX() { return OurComputer->cpu_inst->register_x; };
@@ -70,7 +70,7 @@ byte getStatusRegister() { return OurComputer->cpu_inst->status_register; };
 byte getStackPointer() { return OurComputer->cpu_inst->stack_pointer; };
 address getProgramCounter() { return OurComputer->cpu_inst->pc; };
 
-int resetRegisters() {
+int reset_registers() {
     OurComputer->cpu_inst->accumulator = 0;
     OurComputer->cpu_inst->register_x = 0;
     OurComputer->cpu_inst->register_y = 0;
@@ -78,4 +78,4 @@ int resetRegisters() {
     OurComputer->cpu_inst->stack_pointer = 0;
     
     return 0;
-}
+};
