@@ -268,11 +268,29 @@ void BCS(byte opcode, byte* pc) {if carry == 1{BCC(opcode, pc)}};
 
 // BEQ - branch on Zero Flag = 1
 void BEQ(byte opcode, byte* pc) {if zero == 1{BCC(opcode, pc)}};
+*/
 
 // BIT - bits 7 and 6 of operand are transfered to bit 7 and 6 of SR (N,V);
 // the zero-flag is set to the result of operand AND accumulator.
+void BIT(address pc) {
+ int BIT6_mask = 1 << 0b1 << 6;
+ int BIT7_mask = 1 << 0b1 << 7;
 
-void BIT(byte opcode, byte* pc) {if zero == 1{BCC(opcode, pc)}};
+ if (BIT6_mask & pc) {
+   setOverflowFlag; 
+ } else {clearOverflowFlag;}
+
+ if (BIT7_mask & pc) {
+   setNegativeFlag;
+ } else {clearNegativeFlag;}
+
+ if (OurComputer->cpu_inst->accumulator & pc) {
+  clearZeroFlag;
+ }
+
+};
+
+/*
 
 // BMI - branch on Negative Flag = 1
 void BMI(byte opcode, byte* pc) {if N == 1{BCC(opcode, pc)}};
