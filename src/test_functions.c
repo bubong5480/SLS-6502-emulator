@@ -11,15 +11,15 @@ char* toBinary(int n, int len)
     return binary;
 }
 
-void printAccumulator() { printf("RegA: 0x%x\n", getAccumulator()); };
-void printRegisterX() { printf("RegX: 0x%x\n", getRegisterX()); };
-void printRegisterY() { printf("RegY: 0x%x\n", getRegisterY()); };
-void printHexStatusRegister() { printf("RegSF: 0x%x\n", getStatusRegister()); };
-void printBinaryStatusRegister() { printf("RegSR: 0b%s\n", toBinary(getStatusRegister(), 8)); };
-void printStackPointer() { printf("RegSP: 0x%x\n", getStackPointer()); };
-void printProgramCounter() { printf("RegPC: 0x%x\n", getProgramCounter()); };
+void printAccumulator(void) { printf("RegA: 0x%x\n", getAccumulator()); };
+void printRegisterX(void) { printf("RegX: 0x%x\n", getRegisterX()); };
+void printRegisterY(void) { printf("RegY: 0x%x\n", getRegisterY()); };
+void printHexStatusRegister(void) { printf("RegSF: 0x%x\n", getStatusRegister()); };
+void printBinaryStatusRegister(void) { printf("RegSR: 0b%s\n", toBinary(getStatusRegister(), 8)); };
+void printStackPointer(void) { printf("RegSP: 0x%x\n", getStackPointer()); };
+void printProgramCounter(void) { printf("RegPC: 0x%x\n", getProgramCounter()); };
 
-void printAllRegs() { 
+void printAllRegs(void) { 
         printAccumulator();
         printRegisterX();
         printRegisterY();
