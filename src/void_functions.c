@@ -21,6 +21,158 @@ void clearZeroFlag() { OurComputer->cpu_inst->status_register = getStackPointer(
 void setCarryFlag() { OurComputer->cpu_inst->status_register = getStackPointer() | 0b1; }
 void clearCarryFlag() { OurComputer->cpu_inst->status_register = getStackPointer()  & 0b0; }
 
+void decode(byte opcode) {
+    
+  int a_mask, b_mask, c_mask; 
+  
+  a_mask = opcode & 0b11100000;
+  b_mask = opcode & 0b00011100; 
+  c_mask = opcode & 0b00000011;
+
+  if (c_mask == 0b00) {
+    switch(b_mask) {
+      
+      // immedate 
+      case 0:
+        ret.arg = OurComputer->RAM[getProgramCounter() + 1];
+        break;
+         
+      // zeropage 
+      case 1: 
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+      
+      // absolute
+      case 3: 
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // zeropage, x
+      case 5:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.pc += getRegisterX();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // absolute, x
+      case 7:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.pc += getRegisterX();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  else if (c_mask == 0b01) {
+    switch(b_mask) {
+
+      // (zeropage, x)
+      case 0:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.pc += getRegisterX();
+        ret.pc = OurComputer->RAM[ret.pc];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // zeropage
+      case 1: 
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // immediate
+      case 2: 
+        ret.arg = OurComputer->RAM[getProgramCounter() + 1];
+        break;
+
+      // absolute
+      case 3: 
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // (zeropage), y
+      case 4:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.pc = OurComputer->RAM[ret.pc] + getRegisterY();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // zeropage, x
+      case 5:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.pc += getRegisterX();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // absolute, y
+      case 6:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.pc += getRegisterY();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // absolute, x
+      case 7:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.pc += getRegisterX();
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  else if (c_mask == 0b10) {
+    switch(b_mask) {
+      // immedate 
+      case 0:
+        ret.arg = OurComputer->RAM[getProgramCounter() + 1];
+        break;
+         
+      // zeropage 
+      case 1: 
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+      
+      // accumulator
+      case 3: 
+        ret.arg = getAccumulator();
+        break;
+
+      // zeropage, x
+      case 5:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1];
+        ret.pc += getRegisterX();      // add a conditional for STX/LDX
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      // absolute, x
+      case 7:
+        ret.pc = OurComputer->RAM[getProgramCounter() + 1] << 8 
+          | OurComputer->RAM[getProgramCounter() + 2];
+        ret.pc += getRegisterX();     // add a conditional for STX/LDX
+        ret.arg = OurComputer->RAM[ret.pc];
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
 /*
 void decode(byte opcode) {
   
@@ -611,47 +763,7 @@ void TYA() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-aaa bbb cc
-
-  cc = 01 
-  bbb
-    000   indirect x  
-    001   zero page 
-    010   immediate     
-    011   absolute 
-    100   indirect y 
-    101   zeropage X 
-    110   absolute Y    
-    111   absolute X
-
-  cc = 10 
-  bbb 
-    000   immediate 
-    001   zero page 
-    010   accumulator    
-    011   absolute 
-    101   zeropage X
-    111   absolute X  
-
-  cc = 00 
-  bbb
-    000   immediate 
-    001   zero page 
-    011   absolute       
-    101   zeropage X
-    111   absolute X     
+/* 
  
  implied     funcs with implied dont need to call decode 
  relative    BRANCH funcs, will be hard coded 
